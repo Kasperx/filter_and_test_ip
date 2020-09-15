@@ -26,7 +26,7 @@ public class ReadFile
         
             if (!file.exists())
             {
-                System.err.println("### File doesn't exist");
+                System.err.println("### File doesn't exist '"+fileNameAndPath+"'");
                 return new ArrayList();
             }
             
@@ -68,7 +68,7 @@ public class ReadFile
         try {
             if (!file.exists())
             {
-                System.err.println("### File doesn't exist");
+                System.err.println("### File doesn't exist '"+fileNameAndPath+"'");
                 return new ArrayList();
             }
             

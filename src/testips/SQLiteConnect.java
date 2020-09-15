@@ -68,7 +68,8 @@ public class SQLiteConnect
     {
     	try {
 			new File(Main.dbPath).createNewFile();
-		} catch (IOException e) {
+			execute("create table '"+Main.dbTabelName+"' (ip varchar type unique, teston date, reachable boolean);");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
         System.out.println("Created table '"+Main.dbTabelName+"'");
@@ -106,6 +107,7 @@ public class SQLiteConnect
                 connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
             if (!connection.isClosed() && Dao.consoleLog)
                 System.out.println(" ...connected");
+/*
             File dbFile = new File(DB_PATH);
             if (!dbFile.exists())
             {
@@ -116,6 +118,7 @@ public class SQLiteConnect
 				}
             	dbFile = null;
             }
+ */
         } catch (SQLException e)
         {
             System.out.println(" ...not connected");

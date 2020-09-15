@@ -412,11 +412,15 @@ public class Main extends Dao
         ///////////////////////////////////////////////////////////////
         // db
         sqlite.initDBConnection(dbPath);
-        if(createNewDB)
+        if(createNewDBIfNotExists)
         {
-        	sqlite.dropTable();
-        	if(file.exists())
-        		file.delete();
+
+	        if(createNewDB)
+		{
+	        	sqlite.dropTable();
+	        	if(file.exists())
+	        		file.delete();
+		}
         	sqlite.createNewTable();
         }
         if(createNewDBIfFileDoesNotExist)
@@ -875,7 +879,7 @@ public class Main extends Dao
     	String help;
     	help = ""
     			+ "This program will read available ips from an cvs-table-file, filter all wanted ips by given location-code and test them to be connectable or not"
-    			+ "\nSystax: <-filenamealldata> <-db-tablename> <-db-filename> <-location>"
+    			+ "\nSystax: <-filenamealldata> <-db-tablename> <-db-filename> <-location> <-filenamealldata>"
     			+ "\n-?	\t\t-	show this help and exit"
     			+ "\n-filenamealldata	-	filename of the csv-table-file with all ips"
     			+ "\n-db-tablename>	\t-	tablename of the database to store information. type=sqlite"

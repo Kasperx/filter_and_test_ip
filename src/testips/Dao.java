@@ -10,7 +10,7 @@ import java.util.List;
 import com.maxmind.geoip2.DatabaseReader;
 
 public class Dao {
-	protected static boolean test = true;
+	protected static boolean test = false;
     //static DBUtilsNew dbutils;
 	//protected static List list_allIps;
 	protected static List <String> allIps;
@@ -28,7 +28,8 @@ public class Dao {
     protected static String fileNameAllData;
     protected static String dbTabelName;
     //protected static String dbFileName;
-    protected static boolean createNewDB = false;
+    protected static boolean createNewDB = true;
+    protected static boolean createNewDBIfNotExists = true;
     protected static boolean createNewDBIfFileDoesNotExist = true;
     //protected static boolean limit = true;
     //protected static int int_limit = 5;
