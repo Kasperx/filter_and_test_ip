@@ -8,6 +8,8 @@ import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -479,6 +481,27 @@ public class Main extends Dao
         }
     }
 
+    private static String getFileName(String pathname)
+    {
+    	try {
+			return pathname.substring(pathname.lastIndexOf(File.separator)+1)+"'";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    private static String getDirName(String pathname)
+    {
+        try {
+			Path path = Paths.get(pathname);
+			String dirname = path.getRoot().toString()+path.subpath(0, path.getNameCount()-1).toString();
+			return dirname;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
 	private void showInfo()
 	{
 		if(consoleLog)
@@ -487,9 +510,9 @@ public class Main extends Dao
 			System.out.println("Info:");
 			System.out.println("\tLimit of ip-last-check in hours to avoid db update: "+limitOfLastCheckToAvoidDBUpdate_inHours);
 	    	System.out.println("\tthis folder: \t\t'"+workspace+"'");
-	    	System.out.println("\tfilenamealldata: \t'"+fileNameAllData.substring(fileNameAllData.lastIndexOf(File.separator)+1)+"'");
+	    	System.out.println("\tfilenamealldata: \t'"+getFileName(fileNameAllData)+"'");
 	    	System.out.println("\tdatabase table name: \t'"+dbTabelName+"'");
-	    	System.out.println("\tdatabase file name: \t'"+dbPath+"'");
+	    	System.out.println("\tdatabase file name: \t'"+getFileName(dbPath)+"'");
 	    	//System.out.println("\tresult file ["+pathToResultFile.substring(pathToResultFile.lastIndexOf(".")+1)+"]: \t'"+pathToResultFile.substring(pathToResultFile.lastIndexOf(File.separator)+1)+"'");
 	    	System.out.println("\tlocation filter: \t'"+locationFilter+"'");
 	    	System.out.println("##################################");
