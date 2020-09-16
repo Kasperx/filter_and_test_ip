@@ -900,6 +900,8 @@ public class Main extends Dao
     	if(dir.isDirectory())
     	{
     		files = dir.listFiles();
+    		if(files == null)
+    			return null;
     		for(File temp: files)
     		{
     			if(temp.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase()) && temp.lastModified() > lastModifiedTime)
