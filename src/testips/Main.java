@@ -282,10 +282,18 @@ public class Main extends Dao
 		String checkparameterName;
 		String textOneParameter = "Parameter is not set or wrong:";
 		String textMoreParameters = "One of parameters is not set or wrong:";
-		for(int i=0; i<parameter.length; i++)
+		int length = parameter.length;
+		for(int i=0; i<length; i++)
 		{
 			checkparameterName = parameterName.length >= i ? parameterName[i] : "";
-			if(parameter[i] instanceof String)
+			if(parameter[i] == null) {
+				if (parameter.length > 1)
+					System.err.println(textMoreParameters+" '"+checkparameterName+"' = '"+parameter[i]+"'");
+				else
+					System.err.println(textOneParameter+" '"+checkparameterName+"' = '"+parameter[i]+"'");
+				return true;
+			}
+			if(parameter[i] == null || parameter[i] instanceof String)
 			{
 				String temp = parameter[i].toString();
 				if(temp == null || temp.trim() == null || temp.trim().isEmpty())
@@ -297,7 +305,7 @@ public class Main extends Dao
 					return true;
 				}
 			}
-			else if(parameter[i] instanceof Integer || parameter[i] instanceof Short)
+			else if(parameter[i] == null || parameter[i] instanceof Integer || parameter[i] instanceof Short)
 			{
 				int temp = Integer.valueOf(String.valueOf(i));
 				if(temp < 0)
@@ -309,7 +317,7 @@ public class Main extends Dao
 					return true;
 				}
 			}
-			else if(parameter[i] instanceof Double || parameter[i] instanceof Float)
+			else if(parameter[i] == null || parameter[i] instanceof Double || parameter[i] instanceof Float)
 			{
 				double temp = Double.valueOf(String.valueOf(i));
 				if(temp < 0)
@@ -389,11 +397,10 @@ public class Main extends Dao
     	if(areParametersInValidTest(
     			new String[]{
     			"fileNameAllData",
-    			"pathToResultFile",
     			"dbPath",
     			"dbTabelName",
     			"locationFilter"},
-    			new Object []{fileNameAllData, pathToResultFile, dbPath, dbTabelName, locationFilter})
+    			new Object []{fileNameAllData, dbPath, dbTabelName, locationFilter})
     			)
     	{
     		System.err.println("Exit");
@@ -1001,22 +1008,22 @@ public class Main extends Dao
     				System.out.println();
     		}
     	}
-    	if(isNullOrEmpty(fileNameAllData)){
-    		System.err.println("Value of fileNameAllData is empty");
-    		System.exit(1);
-    	}
-    	else if(isNullOrEmpty(locationFilter)){
-    		System.err.println("Value of locationFilter is empty");
-    		System.exit(1);
-    	}
-		else if(isNullOrEmpty(dbTabelName)){
-			System.err.println("Value of dbTabelName is empty");
-			System.exit(1);
-		}
-		else if(isNullOrEmpty(dbPath)){
-			System.err.println("Value of dbPath is empty");
-			System.exit(1);
-		}
+//    	if(isNullOrEmpty(fileNameAllData)){
+//    		System.err.println("Value of fileNameAllData is empty");
+//    		System.exit(1);
+//    	}
+//    	else if(isNullOrEmpty(locationFilter)){
+//    		System.err.println("Value of locationFilter is empty");
+//    		System.exit(1);
+//    	}
+//		else if(isNullOrEmpty(dbTabelName)){
+//			System.err.println("Value of dbTabelName is empty");
+//			System.exit(1);
+//		}
+//		else if(isNullOrEmpty(dbPath)){
+//			System.err.println("Value of dbPath is empty");
+//			System.exit(1);
+//		}
         new Main().run();
     }
     
