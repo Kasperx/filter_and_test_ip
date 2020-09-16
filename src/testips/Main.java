@@ -388,7 +388,6 @@ public class Main extends Dao
         workspace = System.getProperty("user.dir");
         //fileNameAllData = workspace + File.separator + fileNameAllData;
         //pathToResultFile = workspace + File.separator + pathToResultFile;
-        file = new File(fileNameAllData);
         //dbPath = workspace+"/ips.sql";
         //dbPath = "";
     	showInfo();
@@ -418,6 +417,7 @@ public class Main extends Dao
         ThreadConsole thread = null;
         ///////////////////////////////////////////////////////////////
         // db
+        file = new File(dbPath);
         sqlite.initDBConnection(dbPath);
         if(createNewDBIfNotExists || createNewDB)
         {
