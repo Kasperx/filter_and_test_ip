@@ -378,7 +378,7 @@ public class Main extends Dao
     {
         sqlite = new SQLiteConnect();
         workspace = System.getProperty("user.dir");
-        fileNameAllData = workspace + File.separator + fileNameAllData;
+        //fileNameAllData = workspace + File.separator + fileNameAllData;
         //pathToResultFile = workspace + File.separator + pathToResultFile;
         file = new File(fileNameAllData);
         //dbPath = workspace+"/ips.sql";
@@ -902,12 +902,15 @@ public class Main extends Dao
     			}
     		}
     	}
-    	return chosenFile.getAbsolutePath();
+    	if(chosenFile != null)
+    		return chosenFile.getAbsolutePath();
+    	else
+    		return null;
     }
     
     private static boolean isNullOrEmpty(String string)
     {
-    	if(string == null && string.trim().isEmpty())
+    	if(string == null || string.trim().isEmpty())
     		return true;
     	else
     		return false;
@@ -947,11 +950,12 @@ public class Main extends Dao
     	//fileNameAllData = System.getProperty("user.dir")+"/IP2LOCATION-LITE-DB1.CSV";
     	fileNameAllData = getLatestFileNameFromDirWithExtension(System.getProperty("user.dir"), "csv");
     	dbTabelName = "ip";
-    	if(args.length == 0)
-    	{
-			System.out.println(showHelp());
-			System.exit(0);
-		}
+    	locationFilter = "au";
+//    	if(args.length == 0)
+//    	{
+//			System.out.println(showHelp());
+//			System.exit(0);
+//		}
     	for(int i=0; i<args.length; i++)
     	{
     		if(args[i].equals("-?") || args[i].equals("-help"))
@@ -997,14 +1001,22 @@ public class Main extends Dao
     				System.out.println();
     		}
     	}
-    	if(
-    			isNullOrEmpty(fileNameAllData)
-    			|| isNullOrEmpty(locationFilter)
-    			|| isNullOrEmpty(dbTabelName)
-    			|| isNullOrEmpty(dbPath)
-    			) {
+    	if(isNullOrEmpty(fileNameAllData)){
+    		System.err.println("Value of fileNameAllData is empty");
     		System.exit(1);
     	}
+    	else if(isNullOrEmpty(locationFilter)){
+    		System.err.println("Value of locationFilter is empty");
+    		System.exit(1);
+    	}
+		else if(isNullOrEmpty(dbTabelName)){
+			System.err.println("Value of dbTabelName is empty");
+			System.exit(1);
+		}
+		else if(isNullOrEmpty(dbPath)){
+			System.err.println("Value of dbPath is empty");
+			System.exit(1);
+		}
         new Main().run();
     }
     
