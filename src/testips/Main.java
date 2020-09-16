@@ -412,21 +412,16 @@ public class Main extends Dao
         ///////////////////////////////////////////////////////////////
         // db
         sqlite.initDBConnection(dbPath);
-        if(createNewDBIfNotExists)
+        if(createNewDBIfNotExists || createNewDB)
         {
-
 	        if(createNewDB)
-		{
+	        {
 	        	sqlite.dropTable();
 	        	if(file.exists())
 	        		file.delete();
-		}
-        	sqlite.createNewTable();
-        }
-        if(createNewDBIfFileDoesNotExist)
-        {
-        	if(!file.exists())
-        		sqlite.createNewTable();
+	        }
+	        if(!file.exists())
+	        	sqlite.createNewTable();
         }
         ///////////////////////////////////////////////////////////////
         // db
@@ -889,6 +884,35 @@ public class Main extends Dao
     	return help;
     }
     
+    private static String getLatestFileNameFromDirWithExtension(String dirPath, String extension)
+    {
+    	File dir = new File(dirPath);
+    	File [] files;
+    	long lastModifiedTime = Long.MIN_VALUE;
+    	File chosenFile = null;
+    	if(dir.isDirectory())
+    	{
+    		files = dir.listFiles();
+    		for(File temp: files)
+    		{
+    			if(temp.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase()) && temp.lastModified() > lastModifiedTime)
+    			{
+    				chosenFile = temp;
+                    lastModifiedTime = temp.lastModified();
+    			}
+    		}
+    	}
+    	return chosenFile.getAbsolutePath();
+    }
+    
+    private static boolean isNullOrEmpty(String string)
+    {
+    	if(string == null && string.trim().isEmpty())
+    		return true;
+    	else
+    		return false;
+    }
+    
     public static void main (String [] args)
     {
     	for(int i=0; i<args.length; i++)
@@ -919,6 +943,10 @@ public class Main extends Dao
 	    	list.clear();
 	    	// end: Fix values for quick start
     	}
+    	dbPath = System.getProperty("user.dir")+"/ips.sql";
+    	//fileNameAllData = System.getProperty("user.dir")+"/IP2LOCATION-LITE-DB1.CSV";
+    	fileNameAllData = getLatestFileNameFromDirWithExtension(System.getProperty("user.dir"), "csv");
+    	dbTabelName = "ip";
     	if(args.length == 0)
     	{
 			System.out.println(showHelp());
@@ -953,6 +981,8 @@ public class Main extends Dao
 //    			pathToResultFile = args[i+1];
     		if(args[i].toLowerCase().equals("-location"))
     			locationFilter = args[i+1];
+    		if(args[i].toLowerCase().equals("-create-new-database"))
+    			createNewDB = true;
     	}
     	// show parameter
     	if(consoleLog)
@@ -967,7 +997,15 @@ public class Main extends Dao
     				System.out.println();
     		}
     	}
-        new Main().run();;
+    	if(
+    			isNullOrEmpty(fileNameAllData)
+    			|| isNullOrEmpty(locationFilter)
+    			|| isNullOrEmpty(dbTabelName)
+    			|| isNullOrEmpty(dbPath)
+    			) {
+    		System.exit(1);
+    	}
+        new Main().run();
     }
     
     public static class Ips
