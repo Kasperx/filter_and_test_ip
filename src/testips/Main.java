@@ -429,7 +429,7 @@ public class Main extends Dao
 	        	if(file.exists())
 	        		file.delete();
 	        }
-	        if(!file.exists())
+	        if(!file.exists() || sqlite.getAllColumnsNames() == null || sqlite.getAllColumnsNames().size() == 0)
 	        	sqlite.createNewTable();
         }
         ///////////////////////////////////////////////////////////////

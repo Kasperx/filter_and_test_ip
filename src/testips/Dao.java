@@ -28,7 +28,7 @@ public class Dao {
     protected static String fileNameAllData;
     protected static String dbTabelName;
     //protected static String dbFileName;
-    protected static boolean createNewDB = true;
+    protected static boolean createNewDB = false;
     protected static boolean createNewDBIfNotExists = true;
     protected static boolean createNewDBIfFileDoesNotExist = true;
     //protected static boolean limit = true;

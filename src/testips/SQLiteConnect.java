@@ -67,8 +67,13 @@ public class SQLiteConnect
     public void createNewTable()
     {
     	try {
+    		if(Main.consoleLog)
+        		System.out.println("### creating new db file");
 			new File(Main.dbPath).createNewFile();
-			execute("create table '"+Main.dbTabelName+"' (ip varchar type unique, teston date, reachable boolean);");
+			String sql = "create table '"+Main.dbTabelName+"' (ip varchar type unique, teston date, reachable boolean);";
+			if(Main.consoleLog)
+				System.out.println("--- "+sql);
+			execute(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
